@@ -1,0 +1,108 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.baidu.beidou</groupId>
+    <artifactId>mysql-data-dicitionary</artifactId>
+    <packaging>war</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>mysql-data-dicitionary Maven Webapp</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <source.version>1.6</source.version>
+        <target.version>1.6</target.version>
+        <spring.version>3.2.9.RELEASE</spring.version>
+        <!-- resource path -->
+        <project.build.online.sourceDir>${project.basedir}/src/main/online-resources</project.build.online.sourceDir>
+        <project.build.offline.sourceDir>${project.basedir}/src/main/resources</project.build.offline.sourceDir>
+
+        <!-- Baidu repositories -->
+        <baidu.local.repository>http://maven.scm.baidu.com:8081/nexus/content/groups/public</baidu.local.repository>
+        <baidu.deploy.repository.id>Baidu_Local</baidu.deploy.repository.id>
+        <baidu.deploy.repository.url>http://maven.scm.baidu.com:8081/nexus/content/repositories/Baidu_Local/
+        </baidu.deploy.repository.url>
+    </properties>
+
+    <url>http://maven.apache.org</url>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.6</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>mysql-data-dicitionary</finalName>
+        <plugins>
+            <!-- embedded jetty web server -->
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <configuration>
+                    <!-- hot redeploy interval in seconds -->
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+
+                    <tempDirectory>${project.build.directory}/work</tempDirectory>
+
+                    <webAppConfig>
+                        <contextPath>/</contextPath>
+                    </webAppConfig>
+
+                    <!-- specify run port, default is 8080 -->
+                    <connectors>
+                        <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                            <port>9000</port>
+                            <maxIdleTime>60000</maxIdleTime>
+                        </connector>
+                    </connectors>
+
+                    <!-- specify stop key and port -->
+                    <stopKey>jetty-stopy-key</stopKey>
+                    <stopPort>8009</stopPort>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
